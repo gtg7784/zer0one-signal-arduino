@@ -12,7 +12,7 @@ Adafruit_NeoPixel down_strip = Adafruit_NeoPixel(NUMPIXELS, DOWN_PIN, NEO_GRB + 
 Adafruit_NeoPixel left_strip = Adafruit_NeoPixel(NUMPIXELS, LEFT_PIN, NEO_GRB + NEO_KHZ800);
 Adafruit_NeoPixel right_strip = Adafruit_NeoPixel(NUMPIXELS, RIGHT_PIN, NEO_GRB + NEO_KHZ800);
 
-int relay_pins[8] = [2, 3, 4, 7, 8, 9, 12, 13];
+int relay_pins[8] = {2, 3, 4, 7, 8, 9, 12, 13};
 
 void setup() {
   Serial.begin(9600);
@@ -44,24 +44,24 @@ void loop() {
 
   while(Serial.available()) {
     char input_data = Serial.read();
-    switch input_data:
-      case "0":
-        colorWipe(up_strip.Color(255,0,0));
+    switch(input_data) {
+      case '0':
+        colorWipe(up_strip, up_strip.Color(255,0,0));
         digitalWrite(relay_pins[0], HIGH);
         digitalWrite(relay_pins[4], HIGH);
         break;
-      case "1":
-        colorWipe(down_strip.Color(255,0,0));
+      case '1':
+        colorWipe(down_strip, down_strip.Color(255,0,0));
         digitalWrite(relay_pins[1], HIGH);
         digitalWrite(relay_pins[5], HIGH);
         break;
-      case "2":
-        colorWipe(left_strip.Color(255,0,0));
+      case '2':
+        colorWipe(left_strip, left_strip.Color(255,0,0));
         digitalWrite(relay_pins[2], HIGH);
         digitalWrite(relay_pins[6], HIGH);
         break;
-      case "3":
-        colorWipe(right_strip.Color(255,0,0));
+      case '3':
+        colorWipe(right_strip, right_strip.Color(255,0,0));
         digitalWrite(relay_pins[3], HIGH);
         digitalWrite(relay_pins[7], HIGH);
         break;
@@ -71,10 +71,11 @@ void loop() {
           digitalWrite(relay_pins[i], LOW);
         }
         break;
+    }
   }
 }
 
-void colorWipe(uint32_t c){
+void colorWipe(Adafruit_NeoPixel strip, uint32_t c){
   for(uint16_t i=0; i<strip.numPixels(); i++){
     strip.setPixelColor(i,c);
     strip.show();
